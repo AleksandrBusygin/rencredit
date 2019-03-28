@@ -1,16 +1,19 @@
 package steps;
 
 import io.qameta.allure.Step;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.ContributionsPage;
 
 import java.util.List;
+import java.util.Map;
 
 public class ContributionsPageSteps {
 
     ContributionsPage contributionsPage = new ContributionsPage();
 
     @Step("проверка соответствия заголовка страницы ожидаемому тексту - {0}")
-    public void checkHeaderStep(String expectedHeader){
+    public void checkHeaderStep(String expectedHeader) {
         contributionsPage.compareHeader(expectedHeader);
     }
 
@@ -20,27 +23,33 @@ public class ContributionsPageSteps {
     }
 
     @Step("выбранна суммма вклада - {0}")
-    public void chooseAmountStep(String amount){
-        contributionsPage.howMuchMoney(amount);
+    public void chooseAmountStep(Integer amounts) {
+        contributionsPage.howMuchMoney(amounts);
     }
 
     @Step("вклад на срок - {0}")
-    public void setTermStep(String term){
+    public void setTermStep(String term) {
         contributionsPage.chooseTermMethod(term);
     }
 
     @Step("ежемесячное пополнение - {0}")
-    public void setReplenishmentStep(String replenishment){
+    public void setReplenishmentStep(Integer replenishment) {
         contributionsPage.howMuchReplenish(replenishment);
     }
 
-    @Step("выбраны дополнительные параметры - {0,}")
-    public void chooseAdditionalParamStep(List<String> parametres){
-        contributionsPage.additionalParam(parametres);
+    @Step("выбрана \"Ежемесячная капитализация\"")
+    public void checkBoxEveryMonthStep() {
+        contributionsPage.everyMonth();
     }
 
+    @Step("выбрано \"Частичное снятие\"")
+    public void checkBoxPartialStep() {
+        contributionsPage.partial();
+    }
+
+
     @Step("проверка ожидаемых начислений - {0}")
-    public void checkEarnedStep(String earned){
+    public void checkEarnedStep(String earned) {
         contributionsPage.compareResultEarned(earned);
     }
 
@@ -58,4 +67,5 @@ public class ContributionsPageSteps {
     public void checkResultStep(String result){
         contributionsPage.compareResult(result);
     }
+
 }

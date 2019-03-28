@@ -1,10 +1,12 @@
 package pages;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.Select;
-
-import java.util.List;
+import org.openqa.selenium.support.ui.*;
+import steps.BaseSteps;
 
 public class ContributionsPage extends BasePage {
 
@@ -29,54 +31,56 @@ public class ContributionsPage extends BasePage {
     @FindBy(xpath = "//span[@class='calculator__check-text'][contains(text(),'Частичное')]")
     public WebElement checkBox2;
 
-    @FindBy(xpath = "//span[@class='js-calc-rate']")
+    @FindBy(xpath = "//div[@class=\"calculator__dep-percent\"]//child::span[@class=\"js-calc-rate\"]")
     public WebElement rate;
 
-    @FindBy(xpath = "//span[@class='js-calc-earned']")
+    @FindBy(xpath = "//tr//td//child::b//child::span[@class=\"js-calc-earned\"]")
     public WebElement earned;
 
-    @FindBy(xpath = "//span[@class='js-calc-replenish']")
+    @FindBy(xpath = "//tr//td//child::span[@class=\"js-calc-replenish\"]")
     public WebElement replenish;
 
-    @FindBy(xpath = "//span[@class='js-calc-result']")
+    @FindBy(xpath = "//div//div//child::span[@class=\"js-calc-result\"]")
     public WebElement result;
 
-//    @FindBy(xpath = "//img[@class='logo__image']")
-//    public WebElement logo;
 
-    public void compareHeader(String expectedHeader){
+    public void compareHeader(String expectedHeader) {
         waitFieldisDisplayed(headerOfContributionsPage);
         scrollToElement(headerOfContributionsPage);
-        compareText(headerOfContributionsPage.getText(),expectedHeader);
+        compareHeader(headerOfContributionsPage.getText(), expectedHeader);
     }
-    public void rublesButtonClick(){
-        scrollToElement(rublesButton);
+
+    public void rublesButtonClick() {
+        ((JavascriptExecutor) BaseSteps.getDriver()).executeScript("arguments[0].scrollIntoView(false);", rublesButton);
+        Wait<WebDriver> wait = new WebDriverWait(BaseSteps.getDriver(), 20, 1000);
+        wait.until(ExpectedConditions.visibilityOf(rublesButton));
         click(rublesButton);
     }
 
-    public void howMuchMoney(String money){
+    public void howMuchMoney(Integer money) {
         scrollToElement(formForMoney);
-        fillField(formForMoney,money);
+        fillField(formForMoney, money.toString());
     }
 
-    public void chooseTermMethod(String term){
-         new Select(chooseTerm).selectByVisibleText(term);
-     }
-
-    public void howMuchReplenish(String repl){
-        fillField(replenishment,repl);
+    public void chooseTermMethod(String term) {
+        click(chooseTerm);
+        Select select = new Select(BaseSteps.getDriver().findElement(By.xpath("//select[@class=\"calculator__slide-input js-slide-value\"]")));
+        select.selectByVisibleText(term);
     }
 
-    public void additionalParam(List<String> param){
-        for (String s : param) {
-            if (s.equals("Ежемесячная капитализация")) {
-                checkBoxCheck(checkBox1);
-            }
-            if (s.equals("Частичное снятие")) {
-                checkBoxCheck(checkBox2);
-            }
-        }
+    public void howMuchReplenish(Integer repl) {
+        click(replenishment);
+        fillField(replenishment, repl.toString());
     }
+
+    public void everyMonth() {
+        checkBoxCheck(checkBox1);
+    }
+
+    public void partial() {
+        checkBoxCheck(checkBox2);
+    }
+
     public void compareResultRate(String expectedRate){
         scrollToElement(rate);
         compareText(rate.getText(),expectedRate);

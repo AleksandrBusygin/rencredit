@@ -21,7 +21,7 @@ public class BaseSteps {
     }
     @BeforeClass
     public static void setUp() {
-        switch (properties.getProperty("browser2")) {
+        switch (properties.getProperty("browser")) {
             case "firefox":
                 System.setProperty("webdriver.gecko.driver", properties.getProperty("webdriver.gecko.driver"));
                 driver = new FirefoxDriver();
@@ -40,6 +40,10 @@ public class BaseSteps {
         driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
         driver.get(baseUrl);
 
+        MainPageSteps mainPageSteps = new MainPageSteps();
+        mainPageSteps.selectCalculator();
+        ContributionsPageSteps contributionsPageSteps = new ContributionsPageSteps();
+        contributionsPageSteps.checkHeaderStep("Рассчитайте доходность по вкладу");
 
     }
     @AfterClass
