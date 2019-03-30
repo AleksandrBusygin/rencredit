@@ -25,10 +25,10 @@ public class ContributionsPage extends BasePage {
     @FindBy(xpath = "//input[@name='replenish']")
     public WebElement replenishment;
 
-    @FindBy(xpath = "//span[@class='calculator__check-text'][contains(text(),'Ежемесячная')]")
+    @FindBy(xpath = "//input[@name=\"capitalization\"]//parent::div")
     public WebElement checkBox1;
 
-    @FindBy(xpath = "//span[@class='calculator__check-text'][contains(text(),'Частичное')]")
+    @FindBy(xpath = "//input[@name=\"partial_out\"]//parent::div")
     public WebElement checkBox2;
 
     @FindBy(xpath = "//div[@class=\"calculator__dep-percent\"]//child::span[@class=\"js-calc-rate\"]")
@@ -59,6 +59,7 @@ public class ContributionsPage extends BasePage {
 
     public void howMuchMoney(Integer money) {
         scrollToElement(formForMoney);
+        click(formForMoney);
         fillField(formForMoney, money.toString());
     }
 
@@ -82,19 +83,16 @@ public class ContributionsPage extends BasePage {
     }
 
     public void compareResultRate(String expectedRate){
-        scrollToElement(rate);
-        compareText(rate.getText(),expectedRate);
+        scrollToElement(result);
+        compareText(rate,expectedRate);
     }
     public void compareResultEarned(String expectedEarned){
-        scrollToElement(earned);
-        compareText(earned.getText(),expectedEarned);
+        compareText(earned,expectedEarned);
     }
     public void compareResultReplenish(String expectedReplenish){
-        scrollToElement(replenish);
-        compareText(replenish.getText(),expectedReplenish);
+        compareText(replenish,expectedReplenish);
     }
     public void compareResult(String expectedResult){
-        scrollToElement(result);
-        compareText(result.getText(),expectedResult);
+        compareText(result,expectedResult);
     }
 }

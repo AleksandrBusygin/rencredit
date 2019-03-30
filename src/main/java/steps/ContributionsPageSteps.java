@@ -1,12 +1,8 @@
 package steps;
 
 import io.qameta.allure.Step;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.ContributionsPage;
 
-import java.util.List;
-import java.util.Map;
 
 public class ContributionsPageSteps {
 
@@ -47,16 +43,13 @@ public class ContributionsPageSteps {
         contributionsPage.partial();
     }
 
-
     @Step("проверка ожидаемых начислений - {0}")
     public void checkEarnedStep(String earned) {
         contributionsPage.compareResultEarned(earned);
     }
 
     @Step("проверка ожидаемой итоговой ставки - {0}")
-    public void checkRateStep(String rate){
-        contributionsPage.compareResultRate(rate);
-    }
+    public void checkRateStep(String rate){ contributionsPage.compareResultRate(rate); }
 
     @Step("проверка ожидаемого пополнения - {0}")
     public void checkReplenishStep(String replenish){

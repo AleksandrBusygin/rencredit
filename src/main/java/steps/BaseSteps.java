@@ -1,7 +1,7 @@
 package steps;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -15,12 +15,12 @@ public class BaseSteps {
     public static WebDriver driver;
     private static String baseUrl;
     public static Properties properties = TestProperties.getInstance().getProperties();
-
     public static WebDriver getDriver(){
         return driver;
     }
-    @BeforeClass
-    public static void setUp() {
+
+    @Before
+    public void setUp() {
         switch (properties.getProperty("browser")) {
             case "firefox":
                 System.setProperty("webdriver.gecko.driver", properties.getProperty("webdriver.gecko.driver"));
@@ -39,15 +39,9 @@ public class BaseSteps {
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
         driver.get(baseUrl);
-
-        MainPageSteps mainPageSteps = new MainPageSteps();
-        mainPageSteps.selectCalculator();
-        ContributionsPageSteps contributionsPageSteps = new ContributionsPageSteps();
-        contributionsPageSteps.checkHeaderStep("Рассчитайте доходность по вкладу");
-
     }
-    @AfterClass
-    public static void tearDown(){
+    @After
+    public void tearDown(){
         driver.close();
     }
 }
